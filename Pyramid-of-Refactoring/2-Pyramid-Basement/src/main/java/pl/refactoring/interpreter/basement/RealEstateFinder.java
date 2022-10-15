@@ -29,27 +29,11 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byMaterial(EstateMaterial material){
-        List<RealEstate> foundRealEstates = new ArrayList<>();
-
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (estate.getMaterial().equals(material))
-                foundRealEstates.add(estate);
-        }
-        return foundRealEstates;
+        return bySpec(new MaterialSpec(material));
     }
 
     public List<RealEstate> byMaterialBelowArea(EstateMaterial material, float maxBuildingArea){
-        List<RealEstate> foundRealEstates = new ArrayList<>();
-
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (estate.getMaterial().equals(material) && estate.getBuildingArea() < maxBuildingArea)
-                foundRealEstates.add(estate);
-        }
-        return foundRealEstates;
+        return bySpec(new AndSpec(new MaterialSpec(material), new BelowAreaSpec(maxBuildingArea)));
     }
 
     public List<RealEstate> byPlacement(EstatePlacement placement){
